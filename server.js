@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + '/public'));
+
 var port = process.env.PORT || 8080;
 
 mongoose.connect('mongodb://admin:password@ds011790.mlab.com:11790/todo');

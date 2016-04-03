@@ -1,7 +1,7 @@
 {
   "name": "todo-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A basic todo web app",
   "main": "server.js",
   "dependencies": {},
   "devDependencies": {},
@@ -11,5 +11,6 @@
   },
   "keywords": [],
   "author": "Dan Tong",
-  "license": "ISC"
+  "license": "ISC",
+  "Repository": "git@github.com:dwtong/todo-app.git"
 }
