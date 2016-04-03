@@ -1,13 +1,10 @@
-// Global object array containing all todo items
-var todos;
-
 function xhreq(reqType, reqUrl, callback) {
   var xhr = new XMLHttpRequest();
 
   // When xhr request is returned (status 4), execute callback
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
-      if (callback) {
+      if (callback && typeof callback === 'function') {
         callback(xhr.responseText);
       } else {
         console.log('Successful request.');
@@ -25,10 +22,12 @@ function getAllTodos(callback) {
   xhreq('GET', '/api/todo', function (res) {
 
     // Parse todos into an array of objects
-    todos = JSON.parse(res);
+    var todos = JSON.parse(res);
 
-    callback();
-
+    // Execute callback, if it exists and is a function
+    if (callback && typeof callback === 'function') {
+      callback(todos);
+    }
   });
 }
 
@@ -64,12 +63,12 @@ function renderItem(item, list) {
 }
 
 window.onload = function () {
-  var todoList = document.querySelector('.todo-list');
+  var todoListElement = document.querySelector('.todo-list');
 
   // Render full list of todos
-  getAllTodos(function () {
+  getAllTodos(function (todos) {
     todos.forEach(function (item) {
-      renderItem(item, todoList);
+      renderItem(item, todoListElement);
     });
   });
 };
