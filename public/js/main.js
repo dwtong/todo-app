@@ -32,25 +32,44 @@ function getAllTodos(callback) {
   });
 }
 
-function renderItem(description, list) {
-  // Create new div element for item
-  var li = document.createElement('li');
-  li.className = 'todo-item';
+function renderItem(item, list) {
+  // Create new element for item
+  var div = document.createElement('div');
+  div.className = 'todo-item';
 
-  // Add todo item description to new element
-  var content = document.createTextNode(description);
-  li.appendChild(content);
-  list.appendChild(li);
+  // Checkbox properties
+  var checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.name = item.description;
+  checkbox.value = item.description;
+  checkbox.id = item._id;
+  checkbox.className = 'todo-checkbox';
+
+  // Label for checkbox
+  var label = document.createElement('label');
+  label.htmlFor = checkbox.id;
+  label.appendChild(document.createTextNode(item.description));
+
+  // Add checkbox and label to div
+  div.appendChild(checkbox);
+  div.appendChild(label);
+
+  // Add div to list
+  list.appendChild(div);
+
+  // Add event listener
+  checkbox.addEventListener('click', function () {
+    // Do something to the checkbox
+  });
 }
 
 window.onload = function () {
   var todoList = document.querySelector('.todo-list');
 
+  // Render full list of todos
   getAllTodos(function () {
     todos.forEach(function (item) {
-      renderItem(item.description, todoList);
+      renderItem(item, todoList);
     });
-
   });
-
 };
