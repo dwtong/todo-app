@@ -1,7 +1,7 @@
-var todos = [];
+// Global object array containing all todo items
+var todos;
 
 function xhreq(reqType, reqUrl, callback) {
-
   var xhr = new XMLHttpRequest();
 
   // When xhr request is returned (status 4), execute callback
@@ -21,21 +21,26 @@ function xhreq(reqType, reqUrl, callback) {
 }
 
 function getAllTodos(callback) {
-
   // Request JSON object with all todos from API
   xhreq('GET', '/api/todo', function (res) {
 
     // Parse todos into an array of objects
-    res = JSON.parse(res);
-
-    // TODO - Get rid of this - only use one forEach
-    res.forEach(function (item) {
-      todos.push(item.description);
-    });
+    todos = JSON.parse(res);
 
     callback();
 
   });
+}
+
+function renderItem(description, list) {
+  // Create new div element for item
+  var li = document.createElement('li');
+  li.className = 'todo-item';
+
+  // Add todo item description to new element
+  var content = document.createTextNode(description);
+  li.appendChild(content);
+  list.appendChild(li);
 }
 
 window.onload = function () {
@@ -43,16 +48,9 @@ window.onload = function () {
 
   getAllTodos(function () {
     todos.forEach(function (item) {
-      var div = document.createElement('li');
-      div.className = 'todo-item';
-      var content = document.createTextNode(item);
-      div.appendChild(content);
-      todoList.appendChild(div);
+      renderItem(item.description, todoList);
     });
+
   });
-
-  //todoList.innerHTML = ;
-  //foo = JSON.parse(xhr.responseText);
-
 
 };
