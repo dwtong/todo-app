@@ -58,7 +58,14 @@ function renderItem(item, list) {
 
   // Add event listener
   checkbox.addEventListener('click', function () {
-    // Do something to the checkbox
+    // When checkbox is checked, apply strikethrough style
+    if (this.checked) {
+      this.parentElement.style.textDecoration = "line-through";
+    } else {
+      if (this.parentElement.style.textDecoration = "line-through") {
+        this.parentElement.style.textDecoration = null;
+      }
+    }
   });
 }
 
