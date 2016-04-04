@@ -31,7 +31,11 @@ function getAllTodos(callback) {
   });
 }
 
-function renderItem(item, list) {
+function addTodo(description) {
+  // TODO - implement!
+}
+
+function renderTodoItem(item, list) {
   // Create new element for item
   var div = document.createElement('div');
   div.className = 'todo-item';
@@ -62,6 +66,7 @@ function renderItem(item, list) {
     if (this.checked) {
       this.parentElement.style.textDecoration = "line-through";
     } else {
+      // Remove strikethrough style if it has been applied
       if (this.parentElement.style.textDecoration = "line-through") {
         this.parentElement.style.textDecoration = null;
       }
@@ -69,13 +74,44 @@ function renderItem(item, list) {
   });
 }
 
+function renderNewItemInput(containerElement) {
+  // Create div to hold the input box
+  var div = document.createElement('div');
+  div.className = 'input-box';
+
+  // Create input box
+  var textBox = document.createElement('input');
+  textBox.type = 'text';
+
+  // Append input box to div and div to container
+  div.appendChild(textBox);
+  containerElement.appendChild(div);
+
+  // Add event listener - listens for 'enter' key
+  textBox.addEventListener('keypress', function (event) {
+    var key = event.which;
+
+    // When enter key (13) is pressed, add new todo
+    if (key == 13) {
+      addTodo(this.value);
+    }
+  });
+}
+
 window.onload = function () {
+  var containerElement = document.querySelector('.container');
   var todoListElement = document.querySelector('.todo-list');
 
-  // Render full list of todos
+  // API call - GET all todos, then render them, and input box
   getAllTodos(function (todos) {
+    // Render all todos
     todos.forEach(function (item) {
-      renderItem(item, todoListElement);
+      renderTodoItem(item, todoListElement);
     });
+
   });
+
+  // Render input box to add new todo item
+  renderNewItemInput(containerElement);
+
 };
