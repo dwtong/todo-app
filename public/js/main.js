@@ -1,11 +1,14 @@
-function xhreq(reqType, reqUrl, callback) {
+function xhreq(reqType, reqUrl, callback, body) {
   var xhr = new XMLHttpRequest();
 
-  // When xhr request is returned (status 4), execute callback
+  // When xhr request is has returned (status 4), execute callback
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
+
+      // Only execute callback if it exists and it's a function
       if (callback && typeof callback === 'function') {
         callback(xhr.responseText);
+
       } else {
         console.log('Successful request.');
       }
@@ -14,7 +17,15 @@ function xhreq(reqType, reqUrl, callback) {
 
   // Make XHR request
   xhr.open(reqType, reqUrl, true);
-  xhr.send();
+
+  // Include request header and content for POST
+  if (reqType == 'POST') {
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(body);
+
+  } else {
+    xhr.send();
+  }
 }
 
 function getAllTodos(callback) {
@@ -31,8 +42,17 @@ function getAllTodos(callback) {
   });
 }
 
-function addTodo(description) {
-  // TODO - implement!
+function addTodo(description, callback) {
+  var jsonRequest = JSON.stringify({
+    'description': description
+  });
+
+  // Make request with todo description included, execute callback with response
+  xhreq('POST', '/api/todo', function (res) {
+    // Pass todo object to callback after parsing JSON response
+    var todo = JSON.parse(res);
+    callback(todo);
+  }, jsonRequest);
 }
 
 function renderTodoItem(item, list) {
@@ -74,7 +94,7 @@ function renderTodoItem(item, list) {
   });
 }
 
-function renderNewItemInput(containerElement) {
+function renderNewItemInput(containerElement, todoListElement) {
   // Create div to hold the input box
   var div = document.createElement('div');
   div.className = 'input-box';
@@ -93,7 +113,9 @@ function renderNewItemInput(containerElement) {
 
     // When enter key (13) is pressed, add new todo
     if (key == 13) {
-      addTodo(this.value);
+      addTodo(this.value, function (todo) {
+        renderTodoItem(todo, todoListElement);
+      });
     }
   });
 }
@@ -112,6 +134,6 @@ window.onload = function () {
   });
 
   // Render input box to add new todo item
-  renderNewItemInput(containerElement);
+  renderNewItemInput(containerElement, todoListElement);
 
 };

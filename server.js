@@ -39,7 +39,6 @@ router.route('/todo')
 
   // Set the todo description to the description in the request
   todo.description = req.body.description;
-  console.log(req.body.description);
 
   // Save todo item in DB
   todo.save(function (err) {
@@ -47,9 +46,8 @@ router.route('/todo')
       res.send(err);
     }
 
-    res.json({
-      message: 'Todo created.'
-    });
+    // Response contains todo object
+    res.json(todo);
   });
 })
 
