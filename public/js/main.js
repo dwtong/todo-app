@@ -55,7 +55,7 @@ function addTodo(description, callback) {
   }, jsonRequest);
 }
 
-function renderTodoItem(item, list) {
+function renderChecklistItem(item, parent) {
   // Create new element for item
   var div = document.createElement('div');
   div.className = 'todo-item';
@@ -78,7 +78,7 @@ function renderTodoItem(item, list) {
   div.appendChild(label);
 
   // Add div to list
-  list.appendChild(div);
+  parent.appendChild(div);
 
   // Add event listener
   checkbox.addEventListener('click', function () {
@@ -94,7 +94,7 @@ function renderTodoItem(item, list) {
   });
 }
 
-function renderNewItemInput(containerElement, todoListElement) {
+function renderInputField(containerElement, todoListElement) {
   // Create div to hold the input box
   var div = document.createElement('div');
   div.className = 'input-box';
@@ -114,7 +114,7 @@ function renderNewItemInput(containerElement, todoListElement) {
     // When enter key (13) is pressed, add new todo
     if (key == 13) {
       addTodo(this.value, function (todo) {
-        renderTodoItem(todo, todoListElement);
+        renderChecklistItem(todo, todoListElement);
       });
     }
   });
@@ -128,12 +128,13 @@ window.onload = function () {
   getAllTodos(function (todos) {
     // Render all todos
     todos.forEach(function (item) {
-      renderTodoItem(item, todoListElement);
+      renderChecklistItem(item, todoListElement);
     });
 
   });
 
   // Render input box to add new todo item
-  renderNewItemInput(containerElement, todoListElement);
+  renderInputField(containerElement, todoListElement);
+
 
 };
