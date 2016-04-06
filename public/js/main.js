@@ -103,19 +103,39 @@ function renderInputField(containerElement, todoListElement) {
   var textBox = document.createElement('input');
   textBox.type = 'text';
 
-  // Append input box to div and div to container
+  // Add submit button
+  var submitButton = document.createElement('button');
+  submitButton.innerHTML = 'add';
+  // Append input box and submit button to div and div to container
   div.appendChild(textBox);
+  div.appendChild(submitButton);
   containerElement.appendChild(div);
 
-  // Add event listener - listens for 'enter' key
+  // Add event listener for button
+  submitButton.addEventListener('click', function () {
+    // Add entered item to checklist
+    addTodo(textBox.value, function (todo) {
+      renderChecklistItem(todo, todoListElement);
+    });
+
+    // Clear input box
+    textBox.value = null;
+
+  });
+
+  // Add event listener for 'enter' key
   textBox.addEventListener('keypress', function (event) {
     var key = event.which;
 
     // When enter key (13) is pressed, add new todo
     if (key == 13) {
+      // Add entered item to checklist
       addTodo(this.value, function (todo) {
         renderChecklistItem(todo, todoListElement);
       });
+
+      // Clear input box
+      this.value = null;
     }
   });
 }
