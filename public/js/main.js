@@ -55,11 +55,15 @@ function addTodo(description, callback) {
   }, jsonRequest);
 }
 
+function deleteTodo(todoId) {
+  xhreq('DELETE', '/api/todo/' + todoId);
+}
+
 function renderChecklistItem(item, parent) {
   // Create new element for item
   var div = document.createElement('div');
   div.className = 'todo-item';
-
+  div.id = item._id;
   // Checkbox properties
   var checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
@@ -82,6 +86,7 @@ function renderChecklistItem(item, parent) {
 
   // Add event listener
   checkbox.addEventListener('click', function () {
+    // TODO - Remember when item has been checked - update DB schema?
     // When checkbox is checked, apply strikethrough style
     if (this.checked) {
       this.parentElement.style.textDecoration = "line-through";
@@ -140,6 +145,31 @@ function renderInputField(containerElement, todoListElement) {
   });
 }
 
+function renderDeleteButton(containerElement) {
+  // Create delete button and div to put it in
+  var div = document.createElement('div');
+  var deleteButton = document.createElement('button');
+  deleteButton.innerHTML = 'delete completed items';
+  div.appendChild(deleteButton);
+  containerElement.appendChild(div);
+
+  deleteButton.addEventListener('click', function () {
+    var todoCheckboxes = document.getElementsByClassName('todo-checkbox');
+
+    // For each checked item, send DELETE request
+    for (var i = 0; i < todoCheckboxes.length; i++) {
+      if (todoCheckboxes[i].checked) {
+        // API call to delete item from DB
+        deleteTodo(todoCheckboxes[i].id);
+
+        // Remove element from page
+        var todoDiv = document.getElementById(todoCheckboxes[i].id);
+        document.querySelector('.todo-list').removeChild(todoDiv);
+      }
+    }
+  });
+}
+
 window.onload = function () {
   var containerElement = document.querySelector('.container');
   var todoListElement = document.querySelector('.todo-list');
@@ -150,11 +180,11 @@ window.onload = function () {
     todos.forEach(function (item) {
       renderChecklistItem(item, todoListElement);
     });
-
   });
 
   // Render input box to add new todo item
   renderInputField(containerElement, todoListElement);
 
-
+  // Render delete button, with associated delete functionality
+  renderDeleteButton(containerElement);
 };
