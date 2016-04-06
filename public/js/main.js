@@ -30,10 +30,10 @@ function xhreq(reqType, reqUrl, callback, body) {
 
 function getAllTodos(callback) {
   // Request JSON object with all todos from API
-  xhreq('GET', '/api/todo', function (res) {
+  xhreq('GET', '/api/todo', function (response) {
 
     // Parse todos into an array of objects
-    var todos = JSON.parse(res);
+    var todos = JSON.parse(response);
 
     // Execute callback, if it exists and is a function
     if (callback && typeof callback === 'function') {
@@ -42,16 +42,19 @@ function getAllTodos(callback) {
   });
 }
 
-function addTodo(description, callback) {
+function postTodo(description, callback) {
   var jsonRequest = JSON.stringify({
     'description': description
   });
 
   // Make request with todo description included, execute callback with response
-  xhreq('POST', '/api/todo', function (res) {
+  xhreq('POST', '/api/todo', function (response) {
     // Pass todo object to callback after parsing JSON response
-    var todo = JSON.parse(res);
-    callback(todo);
+    var todo = JSON.parse(response);
+
+    if (callback && typeof callback === 'function') {
+      callback(todo);
+    }
   }, jsonRequest);
 }
 
@@ -64,6 +67,7 @@ function renderChecklistItem(item, parent) {
   var div = document.createElement('div');
   div.className = 'todo-item';
   div.id = item._id;
+
   // Checkbox properties
   var checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
@@ -100,26 +104,24 @@ function renderChecklistItem(item, parent) {
 }
 
 function renderInputField(containerElement, todoListElement) {
-  // Create div to hold the input box
+  // Create elements
   var div = document.createElement('div');
   div.className = 'input-box';
 
-  // Create input box
   var textBox = document.createElement('input');
   textBox.type = 'text';
+  div.appendChild(textBox);
 
-  // Add submit button
   var submitButton = document.createElement('button');
   submitButton.innerHTML = 'add';
-  // Append input box and submit button to div and div to container
-  div.appendChild(textBox);
   div.appendChild(submitButton);
+
   containerElement.appendChild(div);
 
   // Add event listener for button
   submitButton.addEventListener('click', function () {
     // Add entered item to checklist
-    addTodo(textBox.value, function (todo) {
+    postTodo(textBox.value, function (todo) {
       renderChecklistItem(todo, todoListElement);
     });
 
@@ -130,12 +132,10 @@ function renderInputField(containerElement, todoListElement) {
 
   // Add event listener for 'enter' key
   textBox.addEventListener('keypress', function (event) {
-    var key = event.which;
-
     // When enter key (13) is pressed, add new todo
+    var key = event.which;
     if (key == 13) {
-      // Add entered item to checklist
-      addTodo(this.value, function (todo) {
+      postTodo(this.value, function (todo) {
         renderChecklistItem(todo, todoListElement);
       });
 
@@ -159,7 +159,6 @@ function renderDeleteButton(containerElement) {
     // For each checked item, send DELETE request
     for (var i = 0; i < todoCheckboxes.length; i++) {
       if (todoCheckboxes[i].checked) {
-        // API call to delete item from DB
         deleteTodo(todoCheckboxes[i].id);
 
         // Remove element from page
@@ -174,17 +173,12 @@ window.onload = function () {
   var containerElement = document.querySelector('.container');
   var todoListElement = document.querySelector('.todo-list');
 
-  // API call - GET all todos, then render them, and input box
   getAllTodos(function (todos) {
-    // Render all todos
     todos.forEach(function (item) {
       renderChecklistItem(item, todoListElement);
     });
   });
 
-  // Render input box to add new todo item
   renderInputField(containerElement, todoListElement);
-
-  // Render delete button, with associated delete functionality
   renderDeleteButton(containerElement);
 };
