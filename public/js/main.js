@@ -66,7 +66,6 @@ function renderChecklistItem(item, parent) {
   // Create new element for item
   var div = document.createElement('div');
   div.className = 'todo-item';
-  div.id = item._id;
 
   // Checkbox properties
   var checkbox = document.createElement('input');
