@@ -107,11 +107,13 @@ router.route('/todo/:todo_id')
     function (err, todo) {
       if (err) {
         res.send(err);
+
+      } else {
+        res.json({
+          message: 'Successfully deleted.'
+        });
       }
 
-      res.json({
-        message: 'Successfully deleted.'
-      });
     });
 });
 
