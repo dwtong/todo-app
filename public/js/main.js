@@ -157,7 +157,7 @@ function renderDeleteButton(containerElement) {
     var todoCheckboxes = document.getElementsByClassName('todo-checkbox');
 
     // For each checked item, send DELETE request
-    for (var i = 0; i < todoCheckboxes.length; i++) {
+    for (var i = todoCheckboxes.length - 1; i >= 0; i--) {
       if (todoCheckboxes[i].checked) {
         deleteTodo(todoCheckboxes[i].id);
 
