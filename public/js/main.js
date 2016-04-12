@@ -73,7 +73,7 @@ function renderChecklistItem(item, parent) {
   checkbox.type = 'checkbox';
   checkbox.name = item.description;
   checkbox.value = item.description;
-  checkbox.id = item._id;
+  checkbox.id = item._id + '_checkbox';
   checkbox.className = 'todo-checkbox';
 
   // Label for checkbox
@@ -162,7 +162,7 @@ function renderDeleteButton(containerElement) {
         deleteTodo(todoCheckboxes[i].id);
 
         // Remove element from page
-        var todoDiv = document.getElementById(todoCheckboxes[i].id);
+        var todoDiv = document.getElementById(todoCheckboxes[i].id).parentElement;
         document.querySelector('.todo-list').removeChild(todoDiv);
       }
     }
