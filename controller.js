@@ -54,9 +54,7 @@ exports.putTodo = function (req, res) {
         res.send(err);
       }
 
-      res.json({
-        message: 'Todo updated.'
-      });
+      res.json(todo);
     });
   });
 };
