@@ -8,9 +8,6 @@ function xhreq(reqType, reqUrl, callback, body) {
       // Only execute callback if it exists and it's a function
       if (callback && typeof callback === 'function') {
         callback(xhr.responseText);
-
-      } else {
-        console.log('Successful request.');
       }
     }
   }
@@ -72,7 +69,7 @@ function renderChecklistItem(item, parent) {
   checkbox.type = 'checkbox';
   checkbox.name = item.description;
   checkbox.value = item.description;
-  checkbox.id = item._id + '_checkbox';
+  checkbox.id = item._id; 
   checkbox.className = 'todo-checkbox';
 
   // Label for checkbox
@@ -86,20 +83,6 @@ function renderChecklistItem(item, parent) {
 
   // Add div to list
   parent.appendChild(div);
-
-  // Add event listener
-  checkbox.addEventListener('click', function () {
-    // TODO - Remember when item has been checked - update DB schema?
-    // When checkbox is checked, apply strikethrough style
-    if (this.checked) {
-      this.parentElement.style.textDecoration = "line-through";
-    } else {
-      // Remove strikethrough style if it has been applied
-      if (this.parentElement.style.textDecoration = "line-through") {
-        this.parentElement.style.textDecoration = null;
-      }
-    }
-  });
 }
 
 function renderInputField(containerElement, todoListElement) {
@@ -147,6 +130,7 @@ function renderInputField(containerElement, todoListElement) {
 function renderDeleteButton(containerElement) {
   // Create delete button and div to put it in
   var div = document.createElement('div');
+  div.className = 'delete-box';
   var deleteButton = document.createElement('button');
   deleteButton.innerHTML = 'delete completed items';
   div.appendChild(deleteButton);
