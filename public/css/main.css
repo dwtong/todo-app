@@ -3,12 +3,12 @@
 }
 
 .container {
-  width: 50%;
+  width: 30%;
   background-color: #d0dce2;
   border: solid 1px gray;
   border-radius: 5px;
   margin: auto;
-  padding: 3vh 3vh 3vh 3vh;
+  padding: 15px 15px 15px 15px;
 }
 
 .container h1 {
@@ -27,8 +27,29 @@ div {
   color: red;
   display: block;
   width: 100%;
+  margin: 10px 20px 10px 20px;
 }
 
 .todo-checkbox:checked + label {
   color: blue;
+}
+
+.delete-box button {
+  padding: 10px 20px 10px 20px;
+  width: 100%;
+}
+
+.input-box button, input {
+  padding: 0;
+  margin: 0;
+}
+
+.input-box input {
+  height: 30px;
+  width: 78%;
+}
+
+.input-box button {
+  width: 20%;
+  height: 30px;
 }
