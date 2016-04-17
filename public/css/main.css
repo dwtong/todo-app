@@ -2,6 +2,10 @@
   font-family: "open-sans", sans-serif;
 }
 
+button {
+  font-size: 1em;
+}
+
 .container {
   width: 30%;
   background-color: #d0dce2;
@@ -15,10 +19,9 @@
   text-align: center;
 }
 
-div {
-  border: solid 1px gray;
+.todo-item {
+  margin: 20px 20px 20px 20px;
 }
-
 .todo-checkbox {
   display: none;
 }
@@ -44,12 +47,19 @@ div {
   margin: 0;
 }
 
-.input-box input {
+.input-box {
   height: 30px;
-  width: 78%;
+  width: 100%;
+  margin: 10px 0 10px 0;
 }
 
 .input-box button {
+  height: 34px;
+  float: right;
   width: 20%;
+}
+
+.input-box input {
+  width: 76%;
   height: 30px;
 }
