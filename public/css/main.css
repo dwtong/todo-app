@@ -27,14 +27,15 @@ button {
 }
 
 .todo-checkbox + label {
-  color: red;
+  color: blue;
   display: block;
   width: 100%;
   margin: 10px 20px 10px 20px;
 }
 
 .todo-checkbox:checked + label {
-  color: blue;
+  color: red;
+  text-decoration: line-through;
 }
 
 .delete-box button {
