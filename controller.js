@@ -48,6 +48,7 @@ exports.putTodo = function (req, res) {
     // Update todo description to the one in the request
     if (req.body.description) {
       todo.description = req.body.description;
+    }
 
     // Update todo status
     todo.complete = req.body.complete;
