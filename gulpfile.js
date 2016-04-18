@@ -7,10 +7,9 @@ var options = {
 };
 
 var files = [
-  './server.js',
-  './public/*.*',
-  './public/css/*.*',
-  './public/js/*.*'
+  './**/*.js',
+  './public/*.html',
+  './public/css/*.css'
 ];
 
 gulp.task('server:start', function () {
