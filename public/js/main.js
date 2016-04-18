@@ -16,7 +16,7 @@ function xhreq(reqType, reqUrl, callback, body) {
   xhr.open(reqType, reqUrl, true);
 
   // Include request header and content for POST
-  if (reqType == 'POST') {
+  if (reqType == 'POST' || 'PUT') {
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(body);
 
@@ -41,18 +41,26 @@ function getAllTodos(callback) {
 
 function postTodo(description, callback) {
   var jsonRequest = JSON.stringify({
-    'description': description
+    'description': description,
+    'complete': false
   });
 
   // Make request with todo description included, execute callback with response
   xhreq('POST', '/api/todo', function (response) {
     // Pass todo object to callback after parsing JSON response
     var todo = JSON.parse(response);
-
     if (callback && typeof callback === 'function') {
       callback(todo);
     }
   }, jsonRequest);
+}
+
+function putTodo(id, status, description) {
+  var jsonRequest = JSON.stringify({
+    'description': description,
+    'complete': status
+  });
+  xhreq('PUT', '/api/todo/' + id, null, jsonRequest);
 }
 
 function deleteTodo(todoId) {
@@ -71,6 +79,9 @@ function renderChecklistItem(item, parent) {
   checkbox.value = item.description;
   checkbox.id = item._id; 
   checkbox.className = 'todo-checkbox';
+  if (item.complete) {
+    checkbox.checked = true;
+  }
 
   // Label for checkbox
   var label = document.createElement('label');
@@ -83,6 +94,11 @@ function renderChecklistItem(item, parent) {
 
   // Add div to list
   parent.appendChild(div);
+
+  checkbox.addEventListener('click', function () {
+    putTodo(this.id, this.checked);
+    
+  }); 
 }
 
 function renderInputField(containerElement, todoListElement) {

@@ -46,7 +46,11 @@ exports.putTodo = function (req, res) {
     }
 
     // Update todo description to the one in the request
-    todo.description = req.body.description;
+    if (req.body.description) {
+      todo.description = req.body.description;
+
+    // Update todo status
+    todo.complete = req.body.complete;
 
     // Save updated todo in Todo
     todo.save(function (err) {
@@ -66,6 +70,7 @@ exports.postTodo = function (req, res) {
 
   // Set the todo description to the description in the request
   todo.description = req.body.description;
+  todo.complete = req.body.complete;
 
   // Save todo item in DB
   todo.save(function (err) {
