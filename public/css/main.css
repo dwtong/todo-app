@@ -1,5 +1,6 @@
-* {
-  font-family: "open-sans", sans-serif;
+body {
+  background-color: #f4f8fb;
+  font-family: 'Open Sans', sans-serif;
 }
 
 button {
@@ -8,20 +9,26 @@ button {
 
 .container {
   width: 30%;
-  background-color: #d0dce2;
-  border: solid 1px gray;
-  border-radius: 5px;
+  background-color: white;
   margin: auto;
   padding: 15px 15px 15px 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
 }
 
 .container h1 {
   text-align: center;
 }
 
+.header h1 {
+  text-align: center;
+  margin: 20px 0 50px 0;
+}
+
 .todo-item {
   margin: 20px 20px 20px 20px;
 }
+
 .todo-checkbox {
   display: none;
 }
@@ -40,7 +47,8 @@ button {
 
 .delete-box button {
   padding: 10px 20px 10px 20px;
-  width: 100%;
+  margin: 10px 20px 30px 20px;
+  width: 85%;
 }
 
 .input-box button, input {
@@ -50,8 +58,8 @@ button {
 
 .input-box {
   height: 30px;
-  width: 100%;
-  margin: 10px 0 10px 0;
+  width: 85%;
+  margin: 10px 20px 10px 20px;
 }
 
 .input-box button {
