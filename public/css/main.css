@@ -8,7 +8,7 @@ button {
 }
 
 .container {
-  width: 30%;
+  width: 400px;
   background-color: white;
   margin: auto;
   padding: 15px 15px 15px 15px;
@@ -45,6 +45,23 @@ button {
   text-decoration: line-through;
 }
 
+.todo-checkbox + label:before {
+  content: '';
+  display: block;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 0 6px 0 0;
+}
+
+.todo-checkbox:checked + label:before {
+  background-image: url('../images/checked.png');
+}
+
+.todo-checkbox:not(:checked) + label:before {
+  background-image: url('../images/unchecked.png');
+}
 .delete-box button {
   padding: 10px 20px 10px 20px;
   margin: 10px 20px 30px 20px;
