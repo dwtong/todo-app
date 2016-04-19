@@ -2,9 +2,10 @@
 
 var bodyParser = require('body-parser');
 var config = require('./_config');
-var express = require('express');
 var controller = require('./controller');
+var express = require('express');
 var mongoose = require('mongoose');
+var morgan = require('morgan');
 var Todo = require('./app/models/todo');
 
 var app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
+app.use(morgan('dev'));
 
 var port = process.env.PORT || 8080;
 
